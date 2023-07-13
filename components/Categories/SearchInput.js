@@ -1,26 +1,38 @@
-import { useState } from "react";
-import { TextInput, View, StyleSheet, Text, Button } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  Pressable,
+} from "react-native";
+import { colors } from "../../colors";
 
-const AddItem = ({ onAdd }) => {
+const SearchInput = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [inputValidationError, setInputValidationError] = useState(false);
-  const onAddHandler = () => {
-    if (inputValue.trim() === "") {
-      setInputValidationError(true);
-      return;
-    }
-    onAdd(inputValue);
-    setInputValue("");
+  const onSearchHandler = () => {};
+  useEffect(() => {
+    console.log("input value in search comp", inputValue);
+    onSearch(inputValue.trim().toLowerCase());
     setInputValidationError(false);
-  };
+  }, [inputValue]);
   return (
     <View style={styles.container}>
       <TextInput
         style={inputValidationError ? styles.inputError : styles.input}
         onChangeText={setInputValue}
         value={inputValue}
+        placeholder="Search..."
       />
-      <Button color="white" title="Add" onPress={onAddHandler} />
+      {inputValue !== "" ? (
+        <Pressable style={styles.errasePressable}>
+          <Text style={styles.erraseIcon}></Text>
+        </Pressable>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };
@@ -29,16 +41,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 70,
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: "#393E46",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 20,
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: "#ddd",
     height: "50%",
     flex: 1,
     paddingLeft: 10,
@@ -55,6 +63,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "red",
   },
+  errasePressable: {
+    padding: 10,
+  },
+  erraseIcon: {
+    fontFamily: "IcoMoon",
+    color: colors.mainBlue,
+  },
 });
 
-export default AddItem;
+export default SearchInput;

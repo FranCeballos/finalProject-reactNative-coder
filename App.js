@@ -1,8 +1,10 @@
-import { useState } from "react";
-import ModalAction from "./components/ModalAction";
+import { useCallback, useEffect, useState } from "react";
+import HeaderView from "./components/Header/index";
+import CategoriesList from "./components/Categories/CategoriesList";
+import ItemsList from "./components/Items/ItemsList";
+import ItemDetail from "./components/Items/ItemDetail";
+import Home from "./components/Home/Home";
 import NavBar from "./components/NavBar";
-import List from "./components/List/index";
-import AddItem from "./components/AddItem";
 import { StatusBar } from "expo-status-bar";
 import {
   ScrollView,
@@ -15,68 +17,72 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { items, categories } from "./data";
+import { colors } from "./colors";
+import { useFonts } from "expo-font";
+import { fonts } from "./fonts";
+import Info from "./components/Info/Info";
 
-const initialModalObj = {
-  isOpen: false,
-  item: {},
-};
 export default function App() {
-  const [listData, setListData] = useState([]);
-  const [modalVisible, setModalVisible] = useState(initialModalObj);
-  console.log(listData);
+  const [fontsLoaded] = useFonts(fonts);
+  const [view, setView] = useState("categories");
+  const [categorySelected, setCategorySelected] = useState(null);
+  const [itemSelected, setItemSelected] = useState(null);
 
-  const addHandler = (item) => {
-    setListData((prev) => {
-      return [
-        ...prev,
-        { name: item, id: Math.random().toString(), isComplete: false },
-      ];
-    });
-    Keyboard.dismiss();
+  const changeViewHandler = (view, data) => {
+    if (view === "category") {
+      const categoryInfo = categories.find(
+        (cat) => cat.title === data.category
+      );
+      setCategorySelected(
+        categories.find((cat) => cat.title === data.category)
+      );
+    }
+    if (view === "detail") {
+      const itemInfo = items.find((item) => item._id === data.itemId);
+      setItemSelected(itemInfo);
+    }
+    setView(view);
   };
 
-  const deleteAllHandler = () => {
-    setListData([]);
-  };
-
-  const deleteOneHandler = (id) => {
-    setListData((prev) => {
-      return prev.filter((item) => item.id !== id);
-    });
-    setModalVisible(initialModalObj);
-  };
-
-  const toggleComplete = (id) => {
-    setListData((prev) => {
-      return prev.map((item) => {
-        const currentItem = item;
-        if (currentItem.id === id) {
-          currentItem.isComplete = !currentItem.isComplete;
-          return currentItem;
-        }
-
-        return item;
-      });
-    });
-  };
-
-  const completeItemHandler = (id) => {
-    toggleComplete(id);
-    setModalVisible(initialModalObj);
-  };
-
-  const incompleteItemHandler = (id) => {
-    toggleComplete(id);
-    setModalVisible(initialModalObj);
-  };
-
-  const modalOnHandler = (item) => {
-    setModalVisible({ isOpen: true, item });
-  };
-
-  const modalOffHandler = () => {
-    setModalVisible(initialModalObj);
-  };
+  let viewComponent;
+  switch (view) {
+    case "categories":
+      viewComponent = (
+        <CategoriesList
+          categories={categories}
+          onChangeView={changeViewHandler}
+          allItems={items}
+        />
+      );
+      break;
+    case "category":
+      let filteredItems = items;
+      if (categorySelected.title !== "View all") {
+        console.log("filters");
+        filteredItems = items.filter(
+          (item) => item.category === categorySelected.title
+        );
+      }
+      console.log("filteredItems:", filteredItems);
+      viewComponent = (
+        <ItemsList
+          itemsData={filteredItems}
+          category={categorySelected}
+          onChangeView={changeViewHandler}
+        />
+      );
+      break;
+    case "detail":
+      viewComponent = <ItemDetail itemData={itemSelected} />;
+      break;
+    case "info":
+      viewComponent = <Info />;
+      break;
+    case "home":
+      viewComponent = <Home />;
+      break;
+  }
 
   return (
     <SafeAreaProvider>
@@ -86,18 +92,9 @@ export default function App() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
-            <NavBar onDeleteAll={deleteAllHandler} />
-            <List listData={listData} onModalOn={modalOnHandler} />
-            <AddItem onAdd={addHandler} />
-            {modalVisible.isOpen && (
-              <ModalAction
-                item={modalVisible.item}
-                onDelete={deleteOneHandler}
-                onComplete={completeItemHandler}
-                onIncomplete={incompleteItemHandler}
-                onCancel={modalOffHandler}
-              />
-            )}
+            <HeaderView />
+            {viewComponent}
+            <NavBar onChangeView={changeViewHandler} />
             <StatusBar />
           </View>
         </TouchableWithoutFeedback>
@@ -108,7 +105,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#222831",
+    flex: 1,
+    backgroundColor: colors.mainWhite,
+    alignSelf: "stretch",
     justifyContent: "space-between",
     alignItems: "center",
   },

@@ -1,7 +1,8 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { images } from "../../images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const NavBar = ({ onDeleteAll }) => {
+const HeaderView = () => {
   const insets = useSafeAreaInsets();
   const onDeleteAllHandler = () => {
     onDeleteAll();
@@ -10,24 +11,20 @@ const NavBar = ({ onDeleteAll }) => {
     <View
       style={{
         ...styles.container,
-        paddingTop: insets.top * 1,
+        paddingTop: insets.top * 1.25,
         paddingBottom: insets.top * 0.5,
       }}
     >
       <Text style={styles.emptyLeftText}></Text>
-      <Text style={styles.title}>MyApp</Text>
-      <View style={styles.clearButtonBox}>
-        <View style={styles.clearButtonPadding}>
-          <Button title="Clear All" color="red" onPress={onDeleteAllHandler} />
-        </View>
-      </View>
+      <Image style={styles.logo} source={images.logo} />
+      <View style={styles.clearButtonBox}></View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#EEEEEE",
+    backgroundColor: "#ffffff",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -50,6 +47,10 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: "#222831",
   },
+  logo: {
+    width: 40,
+    height: 40,
+  },
 });
 
-export default NavBar;
+export default HeaderView;
