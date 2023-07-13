@@ -12,7 +12,9 @@ import { colors } from "../../colors";
 const SearchInput = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");
   const [inputValidationError, setInputValidationError] = useState(false);
-  const onSearchHandler = () => {};
+  const onClearHandler = () => {
+    setInputValue("");
+  };
   useEffect(() => {
     console.log("input value in search comp", inputValue);
     onSearch(inputValue.trim().toLowerCase());
@@ -27,7 +29,7 @@ const SearchInput = ({ onSearch }) => {
         placeholder="Search..."
       />
       {inputValue !== "" ? (
-        <Pressable style={styles.errasePressable}>
+        <Pressable style={styles.errasePressable} onPress={onClearHandler}>
           <Text style={styles.erraseIcon}></Text>
         </Pressable>
       ) : (
