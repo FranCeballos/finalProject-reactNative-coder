@@ -1,13 +1,11 @@
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { images } from "../../images";
 
-const Item = ({ itemData, onPress }) => {
-  const handlerItemAction = () => {
-    onPress(itemData._id);
-  };
-
+const Item = ({ itemData, navigation }) => {
   return (
-    <Pressable onPress={handlerItemAction}>
+    <Pressable
+      onPress={() => navigation.navigate("Detail", { itemId: itemData._id })}
+    >
       <View style={styles.container}>
         <Image style={styles.image} source={images[itemData._id]} />
         <Text style={styles.title}>{itemData.title}</Text>

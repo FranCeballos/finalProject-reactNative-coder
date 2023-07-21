@@ -1,28 +1,19 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-  Button,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import Item from "./Item";
+import { items, categories } from "../../data";
 import { colors } from "../../colors";
 
-const ItemsList = ({
-  itemsData,
-  category,
-  onChangeView,
-  searchMode = false,
-  searchValue,
-}) => {
-  const goToItemHandler = (itemId) => {
-    onChangeView("detail", { itemId });
-  };
-  const goToCategories = () => {
-    onChangeView("categories");
-  };
+const ItemsList = ({ navigation, route, searchMode = false, searchValue }) => {
   if (!searchMode) {
+    const categoryParam = route?.params.category;
+    const category = categories.find((cat) => cat.title === categoryParam);
+
+    let filteredItems;
+    if (categoryParam === "View all") {
+      filteredItems = items;
+    } else {
+      filteredItems = items.filter((item) => item.category === category.title);
+    }
     return (
       <View style={styles.container}>
         <View style={styles.listTitleBox}>
@@ -33,19 +24,19 @@ const ItemsList = ({
             <Button
               title="Filter"
               color={colors.mainBlue}
-              onPress={goToCategories}
+              onPress={() => navigation.navigate("Search")}
             />
           )}
         </View>
-        {itemsData.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <View style={styles.emptyTextBox}>
             <Text style={styles.emptyText}>No items found</Text>
           </View>
         ) : (
           <FlatList
-            data={itemsData}
+            data={filteredItems}
             renderItem={({ item }) => (
-              <Item itemData={item} onPress={goToItemHandler} />
+              <Item itemData={item} navigation={navigation} />
             )}
             keyExtractor={(item) => item._id}
           />
@@ -53,7 +44,7 @@ const ItemsList = ({
       </View>
     );
   } else {
-    const lowerCaseTitleItems = itemsData.map((item) => {
+    const lowerCaseTitleItems = items.map((item) => {
       return {
         ...item,
         searchTitle: item.title.toLowerCase(),
@@ -74,7 +65,7 @@ const ItemsList = ({
           <FlatList
             data={searchedItems}
             renderItem={({ item }) => (
-              <Item itemData={item} onPress={goToItemHandler} />
+              <Item itemData={item} navigation={navigation} />
             )}
             keyExtractor={(item) => item._id}
           />
@@ -90,6 +81,7 @@ const styles = StyleSheet.create({
     position: "relative",
     alignSelf: "stretch",
     paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   listTitleBox: {
     flexDirection: "row",

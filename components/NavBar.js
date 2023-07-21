@@ -9,25 +9,19 @@ import {
 } from "react-native";
 import { colors } from "../colors";
 
-const NavBar = ({ onChangeView }) => {
-  const goToHomeHandler = () => {
-    onChangeView("home");
-  };
-  const goToSearchHandler = () => {
-    onChangeView("categories");
-  };
-  const goToInfoHandler = () => {
-    onChangeView("info");
-  };
+const NavBar = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Pressable style={styles.button} onPress={goToHomeHandler}>
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Text style={styles.icons}></Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={goToSearchHandler}>
+      <Pressable style={styles.button} onPress={() => {}}>
         <Text style={styles.icons}></Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={goToInfoHandler}>
+      <Pressable style={styles.button} onPress={() => {}}>
         <Text style={styles.icons}></Text>
       </Pressable>
     </View>

@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 
-const CategoryItem = ({ categoryData, onPress }) => {
-  const handlerItemAction = () => {
-    onPress(categoryData.title);
-  };
+const CategoryItem = ({ categoryData, navigation }) => {
   return (
-    <Pressable onPress={handlerItemAction}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate("ItemsList", { category: categoryData.title })
+      }
+    >
       <View style={styles.container}>
         <Text style={styles.title}>{categoryData.title}</Text>
         <Text style={styles.icon}>{categoryData.icon}</Text>

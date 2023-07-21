@@ -1,17 +1,22 @@
 import { useState } from "react";
 import CategoryItem from "./CategoryItem";
 import SearchInput from "./SearchInput";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import ItemsList from "../Items/ItemsList";
+import { items as allItems, categories } from "../../data";
 
-const CategoriesList = ({ categories, onChangeView, allItems }) => {
+const CategoriesList = ({ navigation }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const goToCategoryHandler = (category) => {
-    onChangeView("category", { category });
-  };
   const searchHandler = (value) => {
-    console.log("search value in list", value);
     if (value !== "") {
       setIsSearching(true);
       setSearchValue(value);
@@ -20,31 +25,39 @@ const CategoriesList = ({ categories, onChangeView, allItems }) => {
     setIsSearching(false);
   };
   return (
-    <View style={styles.container}>
-      <SearchInput onSearch={searchHandler} />
-      <Text style={styles.title}>
-        {isSearching ? "Search result..." : "Categories"}
-      </Text>
-      {isSearching ? (
-        <ItemsList
-          itemsData={allItems}
-          searchMode={true}
-          searchValue={searchValue}
-        />
-      ) : categories.length === 0 ? (
-        <View style={styles.emptyTextBox}>
-          <Text style={styles.emptyText}>No categories found</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={categories}
-          renderItem={({ item }) => (
-            <CategoryItem categoryData={item} onPress={goToCategoryHandler} />
+    <KeyboardAvoidingView
+      style={{ flex: 1, alignItems: "center", width: "100%" }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <SearchInput onSearch={searchHandler} />
+          <Text style={styles.title}>
+            {isSearching ? "Search result..." : "Categories"}
+          </Text>
+          {isSearching ? (
+            <ItemsList
+              itemsData={allItems}
+              searchMode={true}
+              searchValue={searchValue}
+              navigation={navigation}
+            />
+          ) : categories.length === 0 ? (
+            <View style={styles.emptyTextBox}>
+              <Text style={styles.emptyText}>No categories found</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={categories}
+              renderItem={({ item }) => (
+                <CategoryItem navigation={navigation} categoryData={item} />
+              )}
+              keyExtractor={(item) => item.title}
+            />
           )}
-          keyExtractor={(item) => item.title}
-        />
-      )}
-    </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

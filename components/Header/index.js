@@ -12,7 +12,7 @@ const HeaderView = () => {
       style={{
         ...styles.container,
         paddingTop: insets.top * 1.25,
-        paddingBottom: insets.top * 0.5,
+        paddingBottom: insets.top * 0.1,
       }}
     >
       <Text style={styles.emptyLeftText}></Text>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     color: "#222831",
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
 });
 

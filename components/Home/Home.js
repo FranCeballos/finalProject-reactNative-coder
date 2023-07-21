@@ -1,13 +1,14 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.emptyTextBox}>
         <Text style={styles.emptyText}>Home</Text>
-        <Text style={styles.emptyTextLight}>
-          Will be implemented in the future
-        </Text>
+        <Button
+          title="Search Categories"
+          onPress={() => navigation.navigate("Search")}
+        />
       </View>
     </View>
   );

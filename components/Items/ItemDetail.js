@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { images } from "../../images";
 import { colors } from "../../colors";
+import { items } from "../../data";
 
-const ItemDetail = ({ itemData }) => {
+const ItemDetail = ({ route }) => {
+  const itemId = route.params.itemId;
+  const itemData = items.find((item) => item._id === itemId);
+  console.log();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image style={styles.image} source={images[itemData._id]} />
