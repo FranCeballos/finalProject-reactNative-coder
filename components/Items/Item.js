@@ -16,7 +16,6 @@ const Item = ({ itemData, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "red",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

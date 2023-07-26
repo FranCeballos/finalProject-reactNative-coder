@@ -16,7 +16,6 @@ const SearchInput = ({ onSearch }) => {
     setInputValue("");
   };
   useEffect(() => {
-    console.log("input value in search comp", inputValue);
     onSearch(inputValue.trim().toLowerCase());
     setInputValidationError(false);
   }, [inputValue]);

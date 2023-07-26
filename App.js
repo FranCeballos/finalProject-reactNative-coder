@@ -11,7 +11,7 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { colors } from "./colors";
 import { fonts } from "./fonts";
-import Navigator from "./navigation/Navigator";
+import TabNavigator from "./navigation/TabNavigator";
 
 export default function App() {
   const [fontsLoaded] = useFonts(fonts);
@@ -23,8 +23,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <>
-        <HeaderView />
-        <Navigator />
+        <TabNavigator />
         <StatusBar />
       </>
     </SafeAreaProvider>

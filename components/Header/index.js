@@ -4,15 +4,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const HeaderView = () => {
   const insets = useSafeAreaInsets();
-  const onDeleteAllHandler = () => {
-    onDeleteAll();
-  };
   return (
     <View
       style={{
         ...styles.container,
         paddingTop: insets.top * 1.25,
-        paddingBottom: insets.top * 0.1,
+        paddingBottom: insets.top * 0.5,
       }}
     >
       <Text style={styles.emptyLeftText}></Text>
@@ -48,8 +45,8 @@ const styles = StyleSheet.create({
     color: "#222831",
   },
   logo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   },
 });
 

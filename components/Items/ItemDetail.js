@@ -6,7 +6,6 @@ import { items } from "../../data";
 const ItemDetail = ({ route }) => {
   const itemId = route.params.itemId;
   const itemData = items.find((item) => item._id === itemId);
-  console.log();
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image style={styles.image} source={images[itemData._id]} />

@@ -155,3 +155,66 @@ export const categories = [
   { title: "Merchandising", icon: "" },
   { title: "View all", icon: "..." },
 ];
+
+export const cart = [
+  {
+    _id: "standardps5",
+    title: "PlayStation 5 Standard",
+    category: "Consoles",
+    price: 499,
+    quantity: 1,
+  },
+  {
+    _id: "dualsenseedgewhite",
+    title: "Dualsense EDGE",
+    category: "Accesories",
+    price: 70,
+    quantity: 1,
+  },
+  {
+    _id: "unchartedlegacy",
+    title: "Uncharted: Thiefs Legacy Collection",
+    category: "Games",
+    price: 70,
+    quantity: 1,
+  },
+  {
+    _id: "shirt1",
+    title: "PlayStation Logo T-Shirt",
+    category: "Merchandising",
+    price: 10,
+    quantity: 1,
+  },
+];
+
+export const orders = [
+  {
+    _id: 1,
+    userId: 2,
+    createdAt: 1679869276580,
+    totalPrice: 649,
+    items: [
+      {
+        _id: "standardps5",
+        title: "PlayStation 5 Standard",
+        category: "Consoles",
+        price: 499,
+        quantity: 1,
+      },
+      {
+        _id: "dualsenseedgewhite",
+        title: "Dualsense EDGE",
+        category: "Accesories",
+        price: 70,
+        quantity: 1,
+      },
+      {
+        _id: "shirt1",
+        title: "PlayStation Logo T-Shirt",
+        category: "Merchandising",
+        price: 10,
+        quantity: 1,
+      },
+    ],
+  },
+];
