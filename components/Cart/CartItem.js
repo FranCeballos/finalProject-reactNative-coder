@@ -1,8 +1,16 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { images } from "../../images";
+import { deleted } from "../../store/reducers/cartSlice";
+import { useDispatch } from "react-redux";
 
 const CartItem = ({ itemData, isCartList = true }) => {
+  const dispatch = useDispatch();
+
+  const deleteFromCartHandler = () => {
+    dispatch(deleted(itemData._id));
+  };
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={images[itemData._id]} />
@@ -10,11 +18,10 @@ const CartItem = ({ itemData, isCartList = true }) => {
         <Text style={styles.title}>{itemData.title}</Text>
         <View style={styles.subInfoContainer}>
           <Text style={styles.price}>${itemData.price}</Text>
-          <Text style={styles.qty}>Qty: {itemData.quantity}</Text>
         </View>
       </View>
       {isCartList && (
-        <Pressable style={styles.deleteButton}>
+        <Pressable style={styles.deleteButton} onPress={deleteFromCartHandler}>
           <Ionicons name="trash" color="black" size={20} />
         </Pressable>
       )}

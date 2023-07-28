@@ -1,16 +1,36 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Pressable,
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { added } from "../../store/reducers/cartSlice";
 import { images } from "../../images";
 import { colors } from "../../colors";
 import { items } from "../../data";
 
 const ItemDetail = ({ route }) => {
+  const dispatch = useDispatch();
   const itemId = route.params.itemId;
   const itemData = items.find((item) => item._id === itemId);
+
+  const addToCartHandler = () => {
+    dispatch(added(itemData));
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image style={styles.image} source={images[itemData._id]} />
-      <View style={styles.priceBox}>
-        <Text style={styles.price}>{`$ ${itemData.price}`}</Text>
+      <View style={styles.actionsBox}>
+        <View style={styles.priceBox}>
+          <Text style={styles.price}>{`$ ${itemData.price}`}</Text>
+        </View>
+        <Pressable style={styles.addToCartBox} onPress={addToCartHandler}>
+          <Text style={styles.addToCartText}>Add To Cart</Text>
+        </Pressable>
       </View>
       <Text style={styles.title}>{itemData.title}</Text>
       <Text style={styles.description}>{itemData.description}</Text>
@@ -60,6 +80,26 @@ const styles = StyleSheet.create({
     fontFamily: "InterLight",
     fontSize: 20,
     textAlign: "center",
+  },
+  actionsBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+  },
+  addToCartBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    width: 130,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.mainBlue,
+    marginBottom: 20,
+  },
+  addToCartText: {
+    color: "white",
+    fontSize: 18,
   },
 });
 

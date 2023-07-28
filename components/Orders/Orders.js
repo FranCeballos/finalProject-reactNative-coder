@@ -1,9 +1,10 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { orders } from "../../data";
+import { useSelector } from "react-redux";
 import { colors } from "../../colors";
 import OrderItem from "./OrderItem";
 
 const Orders = ({ navigation }) => {
+  const orders = useSelector((state) => state.orders.orders);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orders</Text>

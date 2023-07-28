@@ -1,12 +1,29 @@
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import { cart } from "../../data";
+import { useSelector, useDispatch } from "react-redux";
+import { deletedAll } from "../../store/reducers/cartSlice";
+import { added } from "../../store/reducers/ordersSlice";
 import CartItem from "./CartItem";
 import { colors } from "../../colors";
 
 const Cart = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.items);
   const totalPrice = cart.reduce((prev, curr) => {
-    return curr.price * curr.quantity + prev;
+    return curr.price + prev;
   }, 0);
+
+  const addOrderHandler = () => {
+    if (cart.length > 0)
+      dispatch(
+        added({
+          _id: Math.random(),
+          items: cart,
+          totalPrice,
+          createdAt: Date.now(),
+        })
+      );
+    dispatch(deletedAll());
+  };
 
   return (
     <View style={styles.container}>
@@ -17,7 +34,7 @@ const Cart = () => {
         keyExtractor={(item) => item._id}
       />
       <View style={styles.confirmContainer}>
-        <Button title="Confirm" color="white" />
+        <Button title="Confirm" color="white" onPress={addOrderHandler} />
         <Text style={styles.totalText}>Total: ${totalPrice}</Text>
       </View>
     </View>
