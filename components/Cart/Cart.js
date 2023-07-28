@@ -31,7 +31,7 @@ const Cart = () => {
       <FlatList
         data={cart}
         renderItem={({ item }) => <CartItem itemData={item} />}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.cartId}
       />
       <View style={styles.confirmContainer}>
         <Button title="Confirm" color="white" onPress={addOrderHandler} />

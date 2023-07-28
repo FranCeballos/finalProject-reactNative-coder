@@ -18,7 +18,7 @@ const ItemDetail = ({ route }) => {
   const itemData = items.find((item) => item._id === itemId);
 
   const addToCartHandler = () => {
-    dispatch(added(itemData));
+    dispatch(added({ ...itemData, cartId: Math.random() }));
   };
 
   return (
