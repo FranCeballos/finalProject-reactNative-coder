@@ -4,6 +4,7 @@ import { deletedAll } from "../../store/reducers/cartSlice";
 import { added } from "../../store/reducers/ordersSlice";
 import CartItem from "./CartItem";
 import { colors } from "../../colors";
+import { usePostOrderMutation } from "../../services/shopService";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -11,17 +12,16 @@ const Cart = () => {
   const totalPrice = cart.reduce((prev, curr) => {
     return curr.price + prev;
   }, 0);
+  const [triggerPost, result] = usePostOrderMutation();
 
   const addOrderHandler = () => {
     if (cart.length > 0)
-      dispatch(
-        added({
-          _id: Math.random(),
-          items: cart,
-          totalPrice,
-          createdAt: Date.now(),
-        })
-      );
+      triggerPost({
+        _id: Math.random(),
+        items: cart,
+        totalPrice,
+        createdAt: Date.now(),
+      });
     dispatch(deletedAll());
   };
 

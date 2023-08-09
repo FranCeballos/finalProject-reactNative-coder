@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import ShopStack from "./ShopStack";
 import CartStack from "./CartStack";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import HeaderView from "../components/Header";
 import OrdersStack from "./OrdersStack";
 

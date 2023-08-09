@@ -11,9 +11,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import ItemsList from "../Items/ItemsList";
-import { items as allItems, categories } from "../../data";
+import { useGetCategoriesQuery } from "../../services/shopService";
 
 const CategoriesList = ({ navigation }) => {
+  const { data: categories, isLoading, error } = useGetCategoriesQuery();
   const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const searchHandler = (value) => {
@@ -37,12 +38,11 @@ const CategoriesList = ({ navigation }) => {
           </Text>
           {isSearching ? (
             <ItemsList
-              itemsData={allItems}
               searchMode={true}
               searchValue={searchValue}
               navigation={navigation}
             />
-          ) : categories.length === 0 ? (
+          ) : categories?.length === 0 ? (
             <View style={styles.emptyTextBox}>
               <Text style={styles.emptyText}>No categories found</Text>
             </View>

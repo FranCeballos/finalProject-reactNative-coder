@@ -5,17 +5,23 @@ import {
   Image,
   ScrollView,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { added } from "../../store/reducers/cartSlice";
 import { images } from "../../images";
 import { colors } from "../../colors";
-import { items } from "../../data";
+import { useGetProductByIdQuery } from "../../services/shopService";
 
 const ItemDetail = ({ route }) => {
   const dispatch = useDispatch();
   const itemId = route.params.itemId;
-  const itemData = items.find((item) => item._id === itemId);
+  const {
+    data: itemDataObj,
+    isLoading: itemIsLoading,
+    error: itemError,
+  } = useGetProductByIdQuery(itemId);
+  const [itemData] = itemDataObj ? Object.values(itemDataObj) : [];
 
   const addToCartHandler = () => {
     dispatch(added({ ...itemData, cartId: Math.random() }));
@@ -23,17 +29,25 @@ const ItemDetail = ({ route }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image style={styles.image} source={images[itemData._id]} />
-      <View style={styles.actionsBox}>
-        <View style={styles.priceBox}>
-          <Text style={styles.price}>{`$ ${itemData.price}`}</Text>
+      {itemIsLoading ? (
+        <View style={styles.container}>
+          <ActivityIndicator />
         </View>
-        <Pressable style={styles.addToCartBox} onPress={addToCartHandler}>
-          <Text style={styles.addToCartText}>Add To Cart</Text>
-        </Pressable>
-      </View>
-      <Text style={styles.title}>{itemData.title}</Text>
-      <Text style={styles.description}>{itemData.description}</Text>
+      ) : (
+        <>
+          <Image style={styles.image} source={images[itemData._id]} />
+          <View style={styles.actionsBox}>
+            <View style={styles.priceBox}>
+              <Text style={styles.price}>{`$ ${itemData.price}`}</Text>
+            </View>
+            <Pressable style={styles.addToCartBox} onPress={addToCartHandler}>
+              <Text style={styles.addToCartText}>Add To Cart</Text>
+            </Pressable>
+          </View>
+          <Text style={styles.title}>{itemData.title}</Text>
+          <Text style={styles.description}>{itemData.description}</Text>
+        </>
+      )}
     </ScrollView>
   );
 };
