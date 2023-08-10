@@ -4,9 +4,9 @@ import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { colors } from "./colors";
 import { fonts } from "./fonts";
-import TabNavigator from "./navigation/TabNavigator";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import MainNavigator from "./navigation/MainNavigator";
 
 export default function App() {
   const [fontsLoaded] = useFonts(fonts);
@@ -19,7 +19,7 @@ export default function App() {
     <Provider store={store}>
       <SafeAreaProvider>
         <>
-          <TabNavigator />
+          <MainNavigator />
           <StatusBar />
         </>
       </SafeAreaProvider>

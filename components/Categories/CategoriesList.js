@@ -9,12 +9,17 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import ItemsList from "../Items/ItemsList";
 import { useGetCategoriesQuery } from "../../services/shopService";
 
 const CategoriesList = ({ navigation }) => {
-  const { data: categories, isLoading, error } = useGetCategoriesQuery();
+  const {
+    data: categories,
+    isLoading: categoriesAreLoading,
+    error,
+  } = useGetCategoriesQuery();
   const [isSearching, setIsSearching] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const searchHandler = (value) => {
@@ -42,6 +47,8 @@ const CategoriesList = ({ navigation }) => {
               searchValue={searchValue}
               navigation={navigation}
             />
+          ) : categoriesAreLoading ? (
+            <ActivityIndicator />
           ) : categories?.length === 0 ? (
             <View style={styles.emptyTextBox}>
               <Text style={styles.emptyText}>No categories found</Text>

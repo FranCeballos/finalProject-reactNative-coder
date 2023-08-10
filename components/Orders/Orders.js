@@ -1,20 +1,40 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { colors } from "../../colors";
 import OrderItem from "./OrderItem";
+import { useGetOrdersQuery } from "../../services/shopService";
 
 const Orders = ({ navigation }) => {
-  const orders = useSelector((state) => state.orders.orders);
+  const user = useSelector((state) => state.auth.value.user);
+  const {
+    data: orders,
+    isLoading: ordersAreLoading,
+    error,
+  } = useGetOrdersQuery(user);
+  const ordersArray = orders ? Object.values(orders) : [];
+  console.log("orders", orders);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orders</Text>
-      <FlatList
-        data={orders}
-        renderItem={({ item }) => (
-          <OrderItem orderData={item} navigation={navigation} />
-        )}
-        keyExtractor={(order) => order._id}
-      />
+      {ordersAreLoading ? (
+        <ActivityIndicator />
+      ) : ordersArray ? (
+        <FlatList
+          data={ordersArray}
+          renderItem={({ item }) => (
+            <OrderItem orderData={item} navigation={navigation} />
+          )}
+          keyExtractor={(order) => order._id}
+        />
+      ) : (
+        <Text>No orders made.</Text>
+      )}
     </View>
   );
 };

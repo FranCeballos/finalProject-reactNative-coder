@@ -8,38 +8,39 @@ import CartStack from "./CartStack";
 import { StyleSheet } from "react-native";
 import HeaderView from "../components/Header";
 import OrdersStack from "./OrdersStack";
+import AuthStack from "./AuthStack";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
 
-            if (route.name === "ShopTab") {
-              iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "CartTab") {
-              iconName = focused ? "cart" : "cart-outline";
-            } else if (route.name === "OrdersTab") {
-              iconName = "list";
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "white",
-          tabBarInactiveTintColor: "white",
-          tabBarShowLabel: false,
-          header: () => <HeaderView />,
-          tabBarStyle: styles.tabBar,
-        })}
-      >
-        <Tab.Screen name="ShopTab" component={ShopStack} />
-        <Tab.Screen name="CartTab" component={CartStack} />
-        <Tab.Screen name="OrdersTab" component={OrdersStack} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          if (route.name === "ShopTab") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "CartTab") {
+            iconName = focused ? "cart" : "cart-outline";
+          } else if (route.name === "OrdersTab") {
+            iconName = "list";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "white",
+        tabBarShowLabel: false,
+        header: () => <HeaderView />,
+        tabBarStyle: styles.tabBar,
+      })}
+    >
+      <Tab.Screen name="ShopTab" component={ShopStack} />
+      <Tab.Screen name="CartTab" component={CartStack} />
+      <Tab.Screen name="OrdersTab" component={OrdersStack} />
+    </Tab.Navigator>
   );
 };
 

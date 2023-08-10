@@ -1,5 +1,6 @@
 export const images = {
   logo: require("./assets/logos/logoplaystation.png"),
+  psstorelogo: require("./assets/logos/psstore.png"),
   standardps5: require("./assets/items/standardps5.png"),
   standardps5gow: require("./assets/items/standardps5-gow.png"),
   digitalps5: require("./assets/items/digitalps5.png"),

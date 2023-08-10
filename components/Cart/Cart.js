@@ -8,6 +8,7 @@ import { usePostOrderMutation } from "../../services/shopService";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.value.user);
   const cart = useSelector((state) => state.cart.items);
   const totalPrice = cart.reduce((prev, curr) => {
     return curr.price + prev;
@@ -18,6 +19,7 @@ const Cart = () => {
     if (cart.length > 0)
       triggerPost({
         _id: Math.random(),
+        user,
         items: cart,
         totalPrice,
         createdAt: Date.now(),
