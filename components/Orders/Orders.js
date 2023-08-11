@@ -18,7 +18,6 @@ const Orders = ({ navigation }) => {
     error,
   } = useGetOrdersQuery(user);
   const ordersArray = orders ? Object.values(orders) : [];
-  console.log("orders", orders);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orders</Text>

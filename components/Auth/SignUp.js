@@ -23,7 +23,7 @@ const SignUp = ({ navigation }) => {
       dispatch(
         setUser({
           email: result.data?.email || null,
-          idToken: result.data?.idToken || null,
+          localId: result.data?.localId || null,
         })
       );
   }, [result]);

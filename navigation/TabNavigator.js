@@ -8,9 +8,7 @@ import CartStack from "./CartStack";
 import { StyleSheet } from "react-native";
 import HeaderView from "../components/Header";
 import OrdersStack from "./OrdersStack";
-import AuthStack from "./AuthStack";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import UserStack from "./UserStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +25,8 @@ const TabNavigator = () => {
             iconName = focused ? "cart" : "cart-outline";
           } else if (route.name === "OrdersTab") {
             iconName = "list";
+          } else if (route.name === "UserTab") {
+            iconName = focused ? "person-circle" : "person-circle-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -40,6 +40,7 @@ const TabNavigator = () => {
       <Tab.Screen name="ShopTab" component={ShopStack} />
       <Tab.Screen name="CartTab" component={CartStack} />
       <Tab.Screen name="OrdersTab" component={OrdersStack} />
+      <Tab.Screen name="UserTab" component={UserStack} />
     </Tab.Navigator>
   );
 };
