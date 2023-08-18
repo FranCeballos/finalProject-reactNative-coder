@@ -7,6 +7,13 @@ import { fonts } from "./fonts";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import MainNavigator from "./navigation/MainNavigator";
+import { init } from "./db";
+
+init()
+  .then(() => console.log("DB Initialized"))
+  .catch((err) => {
+    console.log("Initialization DB failed:");
+  });
 
 export default function App() {
   const [fontsLoaded] = useFonts(fonts);

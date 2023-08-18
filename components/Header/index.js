@@ -1,12 +1,20 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/reducers/authSlice";
 import { images } from "../../images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { deleteSession } from "../../db";
 const HeaderView = () => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
+  const localId = useSelector((state) => state.auth.value.localId);
+
+  const onLogoutHandler = async () => {
+    dispatch(clearUser());
+    deleteSession({ localId })
+      .then((result) => console.log("Session deleted"))
+      .catch((err) => console.log(err));
+  };
   return (
     <View
       style={{
@@ -18,10 +26,7 @@ const HeaderView = () => {
       <Text style={styles.emptyLeftText}></Text>
       <Image style={styles.logo} source={images.logo} />
       <View style={styles.clearButtonBox}>
-        <Pressable
-          onPress={() => dispatch(clearUser())}
-          style={styles.logoutPressable}
-        >
+        <Pressable onPress={onLogoutHandler} style={styles.logoutPressable}>
           <Text style={styles.logoutIcon}></Text>
         </Pressable>
       </View>

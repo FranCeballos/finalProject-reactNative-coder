@@ -7,6 +7,7 @@ import SubmitButton from "./SubmitButton";
 import { useLoginMutation } from "../../services/authService";
 import { loginSchema } from "../../validations/loginSchema";
 import { setUser } from "../../store/reducers/authSlice";
+import { insertSession } from "../../db";
 
 const LogIn = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -16,13 +17,21 @@ const LogIn = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState("");
   const [triggerLogin, result] = useLoginMutation();
   useEffect(() => {
-    result.data &&
+    if (result?.data) {
       dispatch(
         setUser({
           email: result.data?.email || null,
           localId: result.data?.localId || null,
         })
       );
+      insertSession({
+        email: result.data?.email,
+        localId: result.data?.localId,
+        token: result.data?.idToken,
+      })
+        .then((result) => console.log("Session created"))
+        .catch((err) => console.log("error inserting session"));
+    }
   }, [result]);
 
   const onSubmitHandler = () => {

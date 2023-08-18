@@ -8,10 +8,8 @@ import { usePostProfileImageMutation } from "../../services/shopService";
 
 const ImageSelector = ({ navigation }) => {
   const [image, setImage] = useState(null);
-  console.log("image update", typeof image);
   const { localId } = useSelector((state) => state.auth.value);
   const [triggerSaveProfileImage, result] = usePostProfileImageMutation();
-  console.log("image upload result", result);
   const dispatch = useDispatch();
 
   const verifyCameraPermissions = async () => {
@@ -40,7 +38,6 @@ const ImageSelector = ({ navigation }) => {
 
   const confirmImage = () => {
     dispatch(setProfileImage(image));
-    console.log(image.slice(0, 50));
     triggerSaveProfileImage({ image, localId });
     navigation.goBack();
   };
