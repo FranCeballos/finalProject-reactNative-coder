@@ -16,8 +16,12 @@ const Orders = ({ navigation }) => {
     data: orders,
     isLoading: ordersAreLoading,
     error,
+    refetch,
   } = useGetOrdersQuery(user);
   const ordersArray = orders ? Object.values(orders) : [];
+  if (orders) {
+    refetch();
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orders</Text>

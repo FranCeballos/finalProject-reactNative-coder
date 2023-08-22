@@ -10,6 +10,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import ItemsList from "../Items/ItemsList";
 import { useGetCategoriesQuery } from "../../services/shopService";
@@ -30,10 +31,11 @@ const CategoriesList = ({ navigation }) => {
     }
     setIsSearching(false);
   };
+  const platformOs = Platform ? Platform.OS : "ios";
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, alignItems: "center", width: "100%" }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={platformOs || "ios" === "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>

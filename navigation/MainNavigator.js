@@ -25,7 +25,7 @@ const MainNavigator = (props) => {
           dispatch(setUser(user));
         }
       } catch (error) {
-        console.log(error.message);
+        console.log("No session in local storage");
       }
     })();
     imageData && dispatch(setProfileImage(imageData.image));
