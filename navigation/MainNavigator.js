@@ -16,7 +16,6 @@ const MainNavigator = (props) => {
     error,
   } = useGetProfileImageQuery(localId);
   const dispatch = useDispatch();
-  console.log("user", user);
 
   useEffect(() => {
     (async () => {

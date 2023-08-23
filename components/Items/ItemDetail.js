@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -15,6 +16,7 @@ import { useGetProductByIdQuery } from "../../services/shopService";
 
 const ItemDetail = ({ route }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const itemId = route.params.itemId;
   const {
     data: itemDataObj,
@@ -24,7 +26,11 @@ const ItemDetail = ({ route }) => {
   const [itemData] = itemDataObj ? Object.values(itemDataObj) : [];
 
   const addToCartHandler = () => {
+    setIsLoading(true);
     dispatch(added({ ...itemData, cartId: Math.random() }));
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -40,9 +46,15 @@ const ItemDetail = ({ route }) => {
             <View style={styles.priceBox}>
               <Text style={styles.price}>{`$ ${itemData.price}`}</Text>
             </View>
-            <Pressable style={styles.addToCartBox} onPress={addToCartHandler}>
-              <Text style={styles.addToCartText}>Add To Cart</Text>
-            </Pressable>
+            {isLoading ? (
+              <View style={styles.activityContainer}>
+                <ActivityIndicator />
+              </View>
+            ) : (
+              <Pressable style={styles.addToCartBox} onPress={addToCartHandler}>
+                <Text style={styles.addToCartText}>Add To Cart</Text>
+              </Pressable>
+            )}
           </View>
           <Text style={styles.title}>{itemData.title}</Text>
           <Text style={styles.description}>{itemData.description}</Text>
@@ -54,7 +66,7 @@ const ItemDetail = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     position: "relative",
     justifyContent: "flex-start",
     alignContent: "center",
@@ -113,7 +125,11 @@ const styles = StyleSheet.create({
   },
   addToCartText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
+  },
+  activityContainer: {
+    height: 40,
+    width: 130,
   },
 });
 

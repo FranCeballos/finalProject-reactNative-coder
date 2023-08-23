@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { images } from "../../lib/images";
 import InputForm from "./InputForm";
@@ -35,6 +42,8 @@ const LogIn = ({ navigation }) => {
   }, [result]);
 
   const onSubmitHandler = () => {
+    setEmailError("");
+    setPasswordError("");
     try {
       loginSchema.validateSync({ email, password });
       triggerLogin({ email, password });
@@ -44,8 +53,6 @@ const LogIn = ({ navigation }) => {
         email: () => setEmailError(errorMessage),
         password: () => setPasswordError(errorMessage),
       };
-      setEmailError("");
-      setPasswordError("");
       triggerErrors[error.path]();
     }
   };
@@ -68,7 +75,13 @@ const LogIn = ({ navigation }) => {
       <Text style={styles.authError}>
         {result.error ? result.error.data.error.message : ""}
       </Text>
-      <SubmitButton onPress={onSubmitHandler} title="Sign In" />
+      {result.isLoading ? (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <SubmitButton onPress={onSubmitHandler} title="Sign In" />
+      )}
       <Pressable onPress={() => navigation.navigate("Signup")}>
         <Text style={styles.navigateText}>Create an account</Text>
       </Pressable>
@@ -105,6 +118,9 @@ const styles = StyleSheet.create({
   authError: {
     color: "red",
     marginBottom: 15,
+  },
+  activityContainer: {
+    height: 50,
   },
 });
 

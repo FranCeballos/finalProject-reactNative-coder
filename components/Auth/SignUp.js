@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { images } from "../../lib/images";
 import InputForm from "./InputForm";
 import SubmitButton from "./SubmitButton";
@@ -29,6 +36,9 @@ const SignUp = ({ navigation }) => {
   }, [result]);
 
   const onSubmitHandler = async () => {
+    setEmailError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
     try {
       signupSchema.validateSync({
         email,
@@ -43,12 +53,11 @@ const SignUp = ({ navigation }) => {
         password: () => setPasswordError(errorMessage),
         confirmPassword: () => setConfirmPasswordError(errorMessage),
       };
-      setEmailError("");
-      setPasswordError("");
-      setConfirmPasswordError("");
       triggerErrors[error.path]();
     }
   };
+
+  console.log(result);
 
   return (
     <View style={styles.container}>
@@ -75,7 +84,13 @@ const SignUp = ({ navigation }) => {
       <Text style={styles.authError}>
         {result.error ? result.error.data.error.message : ""}
       </Text>
-      <SubmitButton onPress={onSubmitHandler} title="Sign Up" />
+      {result.isLoading ? (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <SubmitButton onPress={onSubmitHandler} title="Sign Up" />
+      )}
       <Pressable onPress={() => navigation.navigate("Login")}>
         <Text style={styles.navigateText}>Already have an account?</Text>
       </Pressable>
@@ -112,6 +127,9 @@ const styles = StyleSheet.create({
   authError: {
     color: "red",
     marginBottom: 15,
+  },
+  activityContainer: {
+    height: 50,
   },
 });
 

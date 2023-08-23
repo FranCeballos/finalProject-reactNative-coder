@@ -37,7 +37,6 @@ const ImageSelector = ({ navigation }) => {
   };
 
   const confirmImage = async () => {
-    console.log("uploadedImage", image);
     triggerSaveProfileImage({ image, localId });
     dispatch(setProfileImage(image));
     navigation.goBack();

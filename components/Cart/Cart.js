@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Button,
   FlatList,
   Pressable,
@@ -12,8 +13,10 @@ import { added } from "../../store/reducers/ordersSlice";
 import CartItem from "./CartItem";
 import { colors } from "../../lib/colors";
 import { usePostOrderMutation } from "../../services/shopService";
+import { useState } from "react";
 
 const Cart = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.value.user);
   const cart = useSelector((state) => state.cart.items);
@@ -23,7 +26,8 @@ const Cart = () => {
   const [triggerPost, result] = usePostOrderMutation();
 
   const addOrderHandler = () => {
-    if (cart.length > 0)
+    if (cart.length > 0) {
+      setIsLoading(true);
       triggerPost({
         _id: Math.random(),
         user,
@@ -31,7 +35,11 @@ const Cart = () => {
         totalPrice,
         createdAt: Date.now(),
       });
-    dispatch(deletedAll());
+      dispatch(deletedAll());
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -43,9 +51,18 @@ const Cart = () => {
         keyExtractor={(item) => item.cartId}
       />
       <View style={styles.confirmContainer}>
-        <Pressable style={styles.confirmButton} onPress={addOrderHandler}>
-          <Text style={styles.confirmText}>Confirm</Text>
-        </Pressable>
+        {isLoading ? (
+          <View style={styles.activityContainer}>
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <Pressable style={styles.confirmButton} onPress={addOrderHandler}>
+            <Text style={styles.confirmText}>
+              {cart.length > 0 ? "Confirm" : "Cart empty"}
+            </Text>
+          </Pressable>
+        )}
+
         <Text style={styles.totalText}>Total: ${totalPrice}</Text>
       </View>
     </View>
@@ -70,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 70,
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -85,6 +103,11 @@ const styles = StyleSheet.create({
   },
   confirmText: {
     color: "white",
+  },
+  activityContainer: {
+    height: 70,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

@@ -28,7 +28,7 @@ const ItemsList = ({
       isLoading: categoriesAreLoading,
       error: categoriesError,
     } = useGetCategoriesQuery();
-    const category = categoriesData?.filter(
+    const [category] = categoriesData?.filter(
       (cat) => cat.title === categoryParam
     );
     const {
@@ -41,7 +41,7 @@ const ItemsList = ({
     return (
       <View style={styles.container}>
         <View style={styles.listTitleBox}>
-          <Text style={styles.title}>{category.name}</Text>
+          <Text style={styles.title}>{category.title}</Text>
           {category.name !== "View all" ? (
             <Text style={styles.icon}>{category.icon}</Text>
           ) : (
