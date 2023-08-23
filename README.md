@@ -33,6 +33,13 @@ npm start
 - React Native
 - Expo
 
+## Main dependencies
+- @reduxjs/toolkit: for a global state management.
+- expo-sqlite: for storing offline user info (user login persists)
+- expo-image-picker: for uploading a user profile picture.
+- expo-file-system: for accessing local device files.
+- yup: for user input validation.
+
 
 ## Author
 
