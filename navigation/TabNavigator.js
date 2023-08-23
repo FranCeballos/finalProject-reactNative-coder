@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { colors } from "../colors";
+import { colors } from "../lib/colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import ShopStack from "./ShopStack";

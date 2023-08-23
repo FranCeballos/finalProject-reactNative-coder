@@ -1,6 +1,6 @@
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import CartItem from "../Cart/CartItem";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 
 const OrderDetail = ({ route }) => {
   const orderData = route.params.orderData;

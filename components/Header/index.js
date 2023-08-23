@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../store/reducers/authSlice";
-import { images } from "../../images";
+import { images } from "../../lib/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { deleteSession } from "../../db";
 const HeaderView = () => {

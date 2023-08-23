@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 
 const SubmitButton = ({ onPress, title }) => {
   return (

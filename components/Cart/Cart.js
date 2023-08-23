@@ -1,9 +1,16 @@
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { deletedAll } from "../../store/reducers/cartSlice";
 import { added } from "../../store/reducers/ordersSlice";
 import CartItem from "./CartItem";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 import { usePostOrderMutation } from "../../services/shopService";
 
 const Cart = () => {
@@ -36,7 +43,9 @@ const Cart = () => {
         keyExtractor={(item) => item.cartId}
       />
       <View style={styles.confirmContainer}>
-        <Button title="Confirm" color="white" onPress={addOrderHandler} />
+        <Pressable style={styles.confirmButton} onPress={addOrderHandler}>
+          <Text style={styles.confirmText}>Confirm</Text>
+        </Pressable>
         <Text style={styles.totalText}>Total: ${totalPrice}</Text>
       </View>
     </View>
@@ -69,6 +78,13 @@ const styles = StyleSheet.create({
   totalText: {
     color: "white",
     fontFamily: "InterBold",
+  },
+  confirmButton: {
+    backgroundColor: "transparent",
+    padding: 10,
+  },
+  confirmText: {
+    color: "white",
   },
 });
 

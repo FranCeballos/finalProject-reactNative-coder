@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { images } from "../../images";
+import { images } from "../../lib/images";
 import { deleted } from "../../store/reducers/cartSlice";
 import { useDispatch } from "react-redux";
 

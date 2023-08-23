@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useSelector } from "react-redux";
-import { images } from "../../images";
-import { colors } from "../../colors";
+import { images } from "../../lib/images";
+import { colors } from "../../lib/colors";
+
 const User = ({ navigation }) => {
-  const image = useSelector((state) => state.auth.value.profileImage);
+  const { profileImage } = useSelector((state) => state.auth.value);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Profile</Text>
       <View style={styles.content}>
-        {image ? (
+        {profileImage ? (
           <Image
-            source={{ url: image }}
+            source={{ uri: profileImage }}
             style={styles.image}
             resizeMode="cover"
           />

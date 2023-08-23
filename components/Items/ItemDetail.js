@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { added } from "../../store/reducers/cartSlice";
-import { images } from "../../images";
-import { colors } from "../../colors";
+import { images } from "../../lib/images";
+import { colors } from "../../lib/colors";
 import { useGetProductByIdQuery } from "../../services/shopService";
 
 const ItemDetail = ({ route }) => {

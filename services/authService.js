@@ -3,6 +3,7 @@ import { base_auth_url, api_key } from "../firebase/database";
 
 export const authApi = createApi({
   reducerPath: "authApi",
+  refetchOnFocus: true,
   baseQuery: fetchBaseQuery({ baseUrl: base_auth_url }),
   endpoints: (builder) => ({
     signUp: builder.mutation({

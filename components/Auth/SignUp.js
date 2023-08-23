@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { images } from "../../images";
+import { images } from "../../lib/images";
 import InputForm from "./InputForm";
 import SubmitButton from "./SubmitButton";
 import { useSignUpMutation } from "../../services/authService";

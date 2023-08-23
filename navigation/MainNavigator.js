@@ -1,35 +1,41 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { useGetProfileImageQuery } from "../services/shopService";
+import { setProfileImage } from "../store/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AuthStack from "./AuthStack";
 import TabNavigator from "./TabNavigator";
-import { useGetProfileImageQuery } from "../services/shopService";
-import { setProfileImage, setUser } from "../store/reducers/authSlice";
+import { setUser } from "../store/reducers/authSlice";
 import { fetchSession } from "../db";
 
 const MainNavigator = (props) => {
   const { user, localId } = useSelector((state) => state.auth.value);
-  const dispatch = useDispatch();
   const {
     data: imageData,
     isLoading: imageIsLoading,
     error,
   } = useGetProfileImageQuery(localId);
+  const dispatch = useDispatch();
+  console.log("user", user);
 
   useEffect(() => {
     (async () => {
       try {
         const session = await fetchSession();
         if (session?.rows.length) {
-          const user = session.rows._array[0];
-          dispatch(setUser(user));
+          const userSession = session.rows._array[0];
+          dispatch(setUser(userSession));
         }
-      } catch (error) {
+      } catch (err) {
         console.log("No session in local storage");
       }
     })();
+  }, []);
+
+  useEffect(() => {
     imageData && dispatch(setProfileImage(imageData.image));
-  }, [imageData]);
+  }, [user, imageData]);
+
   return (
     <NavigationContainer>
       {user ? <TabNavigator /> : <AuthStack />}

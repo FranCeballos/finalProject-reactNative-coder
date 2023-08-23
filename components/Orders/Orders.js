@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import { useSelector } from "react-redux";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 import OrderItem from "./OrderItem";
 import { useGetOrdersQuery } from "../../services/shopService";
 
@@ -19,7 +19,7 @@ const Orders = ({ navigation }) => {
     refetch,
   } = useGetOrdersQuery(user);
   const ordersArray = orders ? Object.values(orders) : [];
-  if (orders) {
+  if (orders && !ordersAreLoading) {
     refetch();
   }
   return (

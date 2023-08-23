@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Item from "./Item";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 import {
   useGetProductsByCategoryQuery,
   useGetCategoriesQuery,

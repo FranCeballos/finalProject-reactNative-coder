@@ -7,7 +7,7 @@ import {
   Button,
   Pressable,
 } from "react-native";
-import { colors } from "../../colors";
+import { colors } from "../../lib/colors";
 
 const SearchInput = ({ onSearch }) => {
   const [inputValue, setInputValue] = useState("");

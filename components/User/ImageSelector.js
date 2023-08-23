@@ -36,16 +36,17 @@ const ImageSelector = ({ navigation }) => {
     }
   };
 
-  const confirmImage = () => {
-    dispatch(setProfileImage(image));
+  const confirmImage = async () => {
+    console.log("uploadedImage", image);
     triggerSaveProfileImage({ image, localId });
+    dispatch(setProfileImage(image));
     navigation.goBack();
   };
   return (
     <View style={styles.container}>
       {image ? (
         <>
-          <Image source={{ url: image }} style={styles.image} />
+          <Image source={{ uri: image }} style={styles.image} />
           <AddButton title="Take another photo" onPress={pickImage} />
           <AddButton title="Confirm photo" onPress={confirmImage} />
         </>

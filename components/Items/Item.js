@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
-import { images } from "../../images";
+import { images } from "../../lib/images";
 
 const Item = ({ itemData, navigation }) => {
   return (

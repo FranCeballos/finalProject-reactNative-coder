@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { images } from "../../images";
+import { images } from "../../lib/images";
 import InputForm from "./InputForm";
 import SubmitButton from "./SubmitButton";
 import { useLoginMutation } from "../../services/authService";
