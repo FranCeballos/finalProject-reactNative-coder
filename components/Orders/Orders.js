@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -19,9 +20,12 @@ const Orders = ({ navigation }) => {
     refetch,
   } = useGetOrdersQuery(user);
   const ordersArray = orders ? Object.values(orders) : [];
-  if (orders && !ordersAreLoading) {
-    refetch();
-  }
+
+  useEffect(() => {
+    if (orders && !ordersAreLoading) {
+      refetch();
+    }
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Orders</Text>
